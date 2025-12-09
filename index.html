@@ -102,8 +102,8 @@
           unternehmen: '',
           email: '',
           telefon: '',
-          upperThreshold: 80,
-          lowerThreshold: 10
+          upperThreshold: 120,
+          lowerThreshold: 50
         },
         loading: true,
         submitting: false,
@@ -184,13 +184,15 @@
             date.setDate(date.getDate() - (180 - i));
 
             const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 86400000);
-            const seasonalBase = 50 + Math.sin(dayOfYear / 365 * Math.PI * 2) * 15;
-            const randomVariation = (Math.random() - 0.5) * 30;
+            const seasonalBase = 50 + Math.sin(dayOfYear / 365 * Math.PI * 2) * 20;
+            const randomVariation = (Math.random() - 0.5) * 40;
 
             const basePrice = seasonalBase + randomVariation;
-            const min = Math.max(-30, basePrice - 30 - Math.random() * 20);
-            const max = Math.min(180, basePrice + 40 + Math.random() * 50);
-            const avg = (min + max) / 2 + (Math.random() - 0.5) * 10;
+
+            // Allow negative prices and occasional very high prices
+            const min = basePrice - 40 - Math.random() * 80; // Can go negative
+            const max = basePrice + 60 + Math.random() * 100; // Can go much higher
+            const avg = (min + max) / 2 + (Math.random() - 0.5) * 15;
 
             data.push({
               date: date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }),
@@ -322,6 +324,17 @@
           // Use last 30 days on mobile, all data on desktop
           const displayData = isMobile ? priceData.slice(-30) : priceData;
 
+          // Calculate dynamic Y-axis range based on actual data
+          const allValues = displayData.flatMap(d => [d.min, d.max, d.avg]);
+          const dataMin = Math.min(...allValues);
+          const dataMax = Math.max(...allValues);
+
+          // Add 10% padding to the range
+          const range = dataMax - dataMin;
+          const padding = range * 0.1;
+          const yMin = Math.floor(dataMin - padding);
+          const yMax = Math.ceil(dataMax + padding);
+
           chartInstance = new Chart(ctx, {
             type: 'line',
             data: {
@@ -430,8 +443,8 @@
                   grid: { display: false }
                 },
                 y: {
-                  min: -50,
-                  max: 200,
+                  min: yMin,
+                  max: yMax,
                   ticks: {
                     color: '#A4A4A4',
                     font: { size: 10 },
@@ -584,12 +597,12 @@
                       <div class="flex justify-between items-center mb-2">
                         <span class="text-sm text-enerkii-grey-dark">Oberer Schwellwert</span>
                         <span class="text-sm font-semibold text-enerkii-black">
-                          <span id="upper-value">80</span> €/MWh
-                          <span class="font-normal text-enerkii-grey ml-1">(<span id="upper-value-kwh">8.0</span> ct/kWh)</span>
+                          <span id="upper-value">120</span> €/MWh
+                          <span class="font-normal text-enerkii-grey ml-1">(<span id="upper-value-kwh">12.0</span> ct/kWh)</span>
                         </span>
                       </div>
                       <input type="range" name="upperThreshold" id="upper-threshold"
-                        min="50" max="200" step="5" value="80"
+                        min="120" max="800" step="10" value="120"
                         class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-enerkii-green">
                     </div>
 
@@ -598,30 +611,28 @@
                       <div class="flex justify-between items-center mb-2">
                         <span class="text-sm text-enerkii-grey-dark">Unterer Schwellwert</span>
                         <span class="text-sm font-semibold text-enerkii-black">
-                          <span id="lower-value">10</span> €/MWh
-                          <span class="font-normal text-enerkii-grey ml-1">(<span id="lower-value-kwh">1.0</span> ct/kWh)</span>
+                          <span id="lower-value">50</span> €/MWh
+                          <span class="font-normal text-enerkii-grey ml-1">(<span id="lower-value-kwh">5.0</span> ct/kWh)</span>
                         </span>
                       </div>
                       <input type="range" name="lowerThreshold" id="lower-threshold"
-                        min="-20" max="50" step="5" value="10"
+                        min="-150" max="50" step="10" value="50"
                         class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-enerkii-blue">
                     </div>
 
-                    <!-- Alert Stats -->
-                    <div class="grid grid-cols-2 gap-3 mb-4">
-                      <div class="bg-enerkii-grey-light rounded-lg p-4 text-center border-2 border-enerkii-green-light">
-                        <div class="text-3xl font-bold text-enerkii-green" id="alert-above">0</div>
-                        <div class="text-xs text-enerkii-grey-dark mt-1">Tage über Schwellwert</div>
-                      </div>
-                      <div class="bg-enerkii-grey-light rounded-lg p-4 text-center border-2 border-enerkii-yellow-light">
-                        <div class="text-3xl font-bold text-enerkii-blue" id="alert-below">0</div>
-                        <div class="text-xs text-enerkii-grey-dark mt-1">Tage unter Schwellwert</div>
-                      </div>
+                    <!-- Alert Explanation -->
+                    <div class="bg-enerkii-grey-light rounded-lg p-4 mb-4 space-y-3">
+                      <p class="text-sm text-enerkii-grey-dark leading-relaxed">
+                        In den letzten 6 Monaten wären Sie mit diesem Schwellwert
+                        <span class="font-bold text-enerkii-green">an <span id="alert-above">0</span> Tagen für hohe Preise</span>
+                        benachrichtigt worden.
+                      </p>
+                      <p class="text-sm text-enerkii-grey-dark leading-relaxed">
+                        In den letzten 6 Monaten wären Sie mit diesem Schwellwert
+                        <span class="font-bold text-enerkii-blue">an <span id="alert-below">0</span> Tagen für niedrige Preise</span>
+                        benachrichtigt worden.
+                      </p>
                     </div>
-
-                    <p class="text-xs text-enerkii-grey text-center mb-4">
-                      Basierend auf den letzten <span id="data-count">180</span> Tagen
-                    </p>
                   </div>
 
                   <!-- Submit Button -->
