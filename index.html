@@ -83,7 +83,7 @@
           message: 'Bitte geben Sie eine gültige E-Mail-Adresse ein'
         },
         telefon: {
-          required: false,
+          required: true,
           pattern: /^[\d\s+\-()]+$/,
           message: 'Bitte geben Sie eine gültige Telefonnummer ein'
         }
@@ -448,9 +448,16 @@
                   ticks: {
                     color: '#A4A4A4',
                     font: { size: 10 },
-                    callback: function(value) {
-                      return value + ' €/MWh';
+                    callback: function(value, index, ticks) {
+                      return value;
                     }
+                  },
+                  title: {
+                    display: true,
+                    text: '€/MWh',
+                    color: '#A4A4A4',
+                    font: { size: 11 },
+                    align: 'end'
                   },
                   grid: { color: '#F3F4F6' }
                 }
@@ -582,7 +589,7 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-enerkii-green focus:border-transparent">
                     </div>
                     <div>
-                      <label class="block text-sm text-enerkii-grey-dark mb-1">Telefon</label>
+                      <label class="block text-sm text-enerkii-grey-dark mb-1">Telefon *</label>
                       <input type="tel" name="telefon" placeholder="+49 123 456789"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-enerkii-green focus:border-transparent">
                     </div>
@@ -602,7 +609,7 @@
                         </span>
                       </div>
                       <input type="range" name="upperThreshold" id="upper-threshold"
-                        min="120" max="800" step="10" value="120"
+                        min="100" max="500" step="10" value="120"
                         class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-enerkii-green">
                     </div>
 
@@ -623,7 +630,7 @@
 
                   <!-- Submit Button -->
                   <button id="submit-btn"
-                    class="w-full py-3 bg-enerkii-green text-white font-semibold rounded-md hover:bg-enerkii-green-mid transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-enerkii-green focus:ring-offset-2">
+                    class="w-full py-3 bg-white text-enerkii-green font-semibold rounded-md border-2 border-enerkii-green hover:bg-enerkii-green hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-enerkii-green focus:ring-offset-2">
                     Kostenlos anmelden
                   </button>
                 </div>
@@ -638,7 +645,7 @@
                   </div>
 
                   <!-- Alert Explanation -->
-                  <div class="bg-white rounded-lg p-4 mb-4 border border-gray-200 space-y-2">
+                  <div class="p-4 mb-4 space-y-2">
                     <p class="text-sm text-enerkii-grey-dark leading-relaxed">
                       In den letzten 6 Monaten wären Sie mit diesem Schwellwert
                       <span class="font-bold text-enerkii-green">an <span id="alert-above">0</span> Tagen für hohe Preise</span>
@@ -651,7 +658,7 @@
                     </p>
                   </div>
 
-                  <div class="bg-white rounded-lg p-4 border border-gray-200">
+                  <div class="p-4">
                     <canvas id="price-chart" style="height: ${isMobile ? '200px' : '320px'};"></canvas>
                   </div>
                 </div>
