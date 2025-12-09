@@ -652,6 +652,10 @@
             </div>
           `;
 
+          // Update data count elements
+          const dataCountEl = document.getElementById('data-count');
+          if (dataCountEl) dataCountEl.textContent = AppState.priceData.length;
+
           this.attachEventListeners();
           this.updateAlertStats();
 
@@ -814,8 +818,6 @@
             loading: false
           });
 
-          document.getElementById('data-count').textContent = priceData.length;
-
           UIRenderer.renderMainView();
 
         } catch (error) {
@@ -824,6 +826,7 @@
             <div class="flex items-center justify-center min-h-screen">
               <div class="text-center">
                 <p class="text-red-500 mb-4">Fehler beim Laden der Anwendung</p>
+                <p class="text-sm text-gray-600 mb-4">` + error.message + `</p>
                 <button onclick="location.reload()"
                   class="px-4 py-2 bg-enerkii-green text-white rounded hover:bg-enerkii-green-mid">
                   Seite neu laden
