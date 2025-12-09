@@ -1,0 +1,65 @@
+{
+  "brand_colors": {
+    "primary": [
+      {
+        "role": "Primary",
+        "name": "enerkii green",
+        "hex": "#1C754F"
+      },
+      {
+        "role": "Primary Shade 1",
+        "name": "mid green",
+        "hex": "#55977B"
+      },
+      {
+        "role": "Primary Shade 2",
+        "name": "light green",
+        "hex": "#8FBAA8"
+      }
+    ],
+    "neutral": [
+      {
+        "role": "Neutral 1",
+        "name": "White",
+        "hex": "#FFFFFF"
+      },
+      {
+        "role": "Neutral 2",
+        "name": "light grey",
+        "hex": "#FAFAFA"
+      },
+      {
+        "role": "Neutral 3",
+        "name": "grey",
+        "hex": "#A4A4A4"
+      },
+      {
+        "role": "Neutral 4",
+        "name": "dark grey",
+        "hex": "#4E4E4E"
+      },
+      {
+        "role": "Neutral 5",
+        "name": "black",
+        "hex": "#222222"
+      }
+    ],
+    "accent_secondary": [
+      {
+        "role": "Secondary Accent",
+        "name": "Yellow",
+        "hex": "#FEC240"
+      },
+      {
+        "role": "Accent Shade",
+        "name": "light yellow",
+        "hex": "#FFE09F"
+      },
+      {
+        "role": "Secondary",
+        "name": "Blue",
+        "hex": "#4E71EE"
+      }
+    ]
+  }
+}

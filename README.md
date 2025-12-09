@@ -373,68 +373,10 @@ Nach erfolgreicher Anmeldung wird das gesamte Formular durch eine Erfolgsmeldung
 - Button ist deaktiviert (nicht klickbar)
 - Cursor zeigt "not-allowed"
 
----
 
-## 5. E-Mail-Benachrichtigungen
+## 5. Datengrundlage
 
-### 5.1 Auslöser
-
-Eine E-Mail wird versendet, wenn für den Folgetag mindestens eine der folgenden Bedingungen erfüllt ist:
-
-1. Mindestens eine Viertelstunde überschreitet den oberen Schwellwert
-2. Mindestens eine Viertelstunde unterschreitet den unteren Schwellwert
-
-### 5.2 Versandzeitpunkt
-
-Täglich um ca. 14:00 Uhr MEZ/MESZ (nach Veröffentlichung der Day-Ahead-Preise durch ENTSO-E)
-
-### 5.3 E-Mail-Inhalt
-
-**Betreff:** `⚡ Strompreis-Signal für [Datum]: [X] Stunden über [Y] ct/kWh, [Z] Stunden unter [W] ct/kWh`
-
-**Inhalt:**
-
-```
-Guten Tag [Anrede] [Nachname],
-
-für morgen ([Datum]) haben wir relevante Strompreisbewegungen 
-für [Unternehmen] identifiziert:
-
-🔴 HOHE PREISE ([X] Stunden über [Y] ct/kWh):
-   • [Uhrzeit] Uhr: [Preis] ct/kWh
-   • [Uhrzeit] Uhr: [Preis] ct/kWh
-   ...
-
-   → Empfehlung: Stromintensive Prozesse wenn möglich verschieben.
-
-🟢 NIEDRIGE PREISE ([X] Stunden unter [Y] ct/kWh):
-   • [Uhrzeit] Uhr: [Preis] ct/kWh
-   • [Uhrzeit] Uhr: [Preis] ct/kWh
-   ...
-
-   → Empfehlung: Idealer Zeitraum für energieintensive Tätigkeiten.
-
-Bei Fragen stehen wir Ihnen gerne zur Verfügung.
-
-Mit freundlichen Grüßen
-Ihr enerkii-Team
-
---
-enerkii GmbH
-www.enerkii.de
-```
-
-### 5.4 Preisumrechnung
-
-In den E-Mails werden Preise in **ct/kWh** angegeben (Umrechnung: €/MWh ÷ 10), da diese Einheit für Endkunden verständlicher ist.
-
-Zeitangaben werden von Viertelstunden in **Stunden** aggregiert (z.B. "1,5 Stunden" statt "6 Viertelstunden").
-
----
-
-## 6. Datengrundlage
-
-### 6.1 ENTSO-E Transparency Platform
+### 5.1 ENTSO-E Transparency Platform
 
 **Datenquelle:** European Network of Transmission System Operators for Electricity
 
@@ -447,7 +389,7 @@ Zeitangaben werden von Viertelstunden in **Stunden** aggregiert (z.B. "1,5 Stund
 
 **Zeitzone:** UTC (Umrechnung auf Europe/Berlin für Anzeige und E-Mails)
 
-### 6.2 Preischarakteristik
+### 5.2 Preischarakteristik
 
 Day-Ahead-Preise können:
 - Negativ werden (bei Überproduktion erneuerbarer Energien)
@@ -457,15 +399,15 @@ Day-Ahead-Preise können:
 
 ---
 
-## 7. Limitierungen
+## 6. Limitierungen
 
-### 7.1 Funktionale Einschränkungen
+### 6.1 Funktionale Einschränkungen
 
 - Maximal eine E-Mail pro Kunde pro Tag
 - Keine SMS- oder Push-Benachrichtigungen
 - Keine Änderung der Schwellwerte nach Anmeldung (Neuanmeldung erforderlich)
 
-### 7.2 Dateneinschränkungen
+### 6.2 Dateneinschränkungen
 
 - Preisdaten nur für DE-LU Marktgebiet verfügbar
 - Historische Daten auf 180 Tage begrenzt
@@ -473,7 +415,7 @@ Day-Ahead-Preise können:
 
 ---
 
-## 8. Glossar
+## 7. Glossar
 
 | Begriff | Definition |
 |---------|------------|
@@ -485,16 +427,3 @@ Day-Ahead-Preise können:
 | **ct/kWh** | Cent pro Kilowattstunde (Endkundeneinheit, €/MWh ÷ 10) |
 | **Schwellwert** | Individuell definierter Preisgrenzwert für Benachrichtigungen |
 
----
-
-## 9. Versionierung
-
-| Version | Datum | Änderungen |
-|---------|-------|------------|
-| v1.0 | Dezember 2025 | Initiale Version mit Basis-Funktionalität |
-| v2.0 | Dezember 2025 | Neue API-Struktur, interaktive Visualisierung, verbessertes Design |
-
----
-
-*Dokumentation erstellt: Dezember 2025*
-*enerkii GmbH*
