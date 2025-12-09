@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="enerkii Strompreisalarm - Erhalten Sie personalisierte Benachrichtigungen bei günstigen oder teuren Strompreisen">
   <title>enerkii Strompreisalarm</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     @keyframes spin {
       0% { transform: rotate(0deg); }
@@ -40,13 +41,9 @@
 
 <div id="enerkii-price-signal"></div>
 
-<script type="text/javascript">
-(function() {
-  'use strict';
-
+<script type="text/babel">
   const { useState, useEffect } = React;
   const { XAxis, YAxis, ReferenceLine, Tooltip, ResponsiveContainer, Area, ComposedChart, Line } = Recharts;
-  const e = React.createElement;
 
   // enerkii Brand Colors
   const colors = {
@@ -209,18 +206,16 @@
     };
 
     if (submitted) {
-      return e('div', { style: { maxWidth: '800px', margin: '0 auto', padding: '24px' } },
-        e('div', {
-          style: {
+      return (
+        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '24px' }}>
+          <div style={{
             backgroundColor: 'white',
             borderRadius: '8px',
             border: '1px solid #e5e7eb',
             padding: '48px',
             textAlign: 'center'
-          }
-        },
-          e('div', {
-            style: {
+          }}>
+            <div style={{
               width: '64px',
               height: '64px',
               borderRadius: '50%',
@@ -229,383 +224,381 @@
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 16px'
-            }
-          },
-            e('svg', { width: 32, height: 32, fill: 'none', stroke: colors.primary, viewBox: '0 0 24 24' },
-              e('path', { strokeLinecap: 'round', strokeLinejoin: 'round', strokeWidth: 2.5, d: 'M5 13l4 4L19 7' })
-            )
-          ),
-          e('h3', { style: { fontSize: '20px', fontWeight: '600', marginBottom: '8px', color: colors.black } },
-            'Anmeldung erfolgreich!'
-          ),
-          e('p', { style: { color: colors.darkGrey } },
-            'Sie erhalten ab morgen Ihre personalisierten Strompreis-Signale per E-Mail.'
-          )
-        )
+            }}>
+              <svg width="32" height="32" fill="none" stroke={colors.primary} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '8px', color: colors.black }}>
+              Anmeldung erfolgreich!
+            </h3>
+            <p style={{ color: colors.darkGrey }}>
+              Sie erhalten ab morgen Ihre personalisierten Strompreis-Signale per E-Mail.
+            </p>
+          </div>
+        </div>
       );
     }
 
-    return e('div', { style: { maxWidth: '1000px', margin: '0 auto' } },
-      e('div', {
-        style: {
+    return (
+      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+        <div style={{
           backgroundColor: 'white',
           borderRadius: '8px',
           border: '1px solid #e5e7eb',
           overflow: 'hidden',
           display: 'grid',
           gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr'
-        }
-      },
+        }}>
 
-        // Left Side: Form
-        e('div', { style: { padding: '24px', borderRight: isMobile ? 'none' : '1px solid #e5e7eb' } },
-          e('h3', { style: { fontSize: '18px', fontWeight: '600', marginBottom: '20px', color: colors.black } },
-            'Ihre Daten'
-          ),
+          {/* Left Side: Form */}
+          <div style={{ padding: '24px', borderRight: isMobile ? 'none' : '1px solid #e5e7eb' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '20px', color: colors.black }}>
+              Ihre Daten
+            </h3>
 
-          // Name Row
-          e('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' } },
-            e('div', null,
-              e('label', { style: labelStyle }, 'Vorname *'),
-              e('input', {
-                type: 'text',
-                style: inputStyle,
-                placeholder: 'Max',
-                value: formData.vorname,
-                onChange: (ev) => setFormData({...formData, vorname: ev.target.value})
-              })
-            ),
-            e('div', null,
-              e('label', { style: labelStyle }, 'Nachname *'),
-              e('input', {
-                type: 'text',
-                style: inputStyle,
-                placeholder: 'Mustermann',
-                value: formData.name,
-                onChange: (ev) => setFormData({...formData, name: ev.target.value})
-              })
-            )
-          ),
+            {/* Name Row */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+              <div>
+                <label style={labelStyle}>Vorname *</label>
+                <input
+                  type="text"
+                  style={inputStyle}
+                  placeholder="Max"
+                  value={formData.vorname}
+                  onChange={(e) => setFormData({...formData, vorname: e.target.value})}
+                />
+              </div>
+              <div>
+                <label style={labelStyle}>Nachname *</label>
+                <input
+                  type="text"
+                  style={inputStyle}
+                  placeholder="Mustermann"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                />
+              </div>
+            </div>
 
-          // Anrede
-          e('div', { style: { marginBottom: '16px' } },
-            e('label', { style: labelStyle }, 'Anrede'),
-            e('select', {
-              style: { ...inputStyle, backgroundColor: 'white' },
-              value: formData.geschlecht,
-              onChange: (ev) => setFormData({...formData, geschlecht: ev.target.value})
-            },
-              e('option', { value: '' }, 'Bitte wählen'),
-              e('option', { value: 'Herr' }, 'Herr'),
-              e('option', { value: 'Frau' }, 'Frau'),
-              e('option', { value: 'Divers' }, 'Divers')
-            )
-          ),
+            {/* Anrede */}
+            <div style={{ marginBottom: '16px' }}>
+              <label style={labelStyle}>Anrede</label>
+              <select
+                style={{ ...inputStyle, backgroundColor: 'white' }}
+                value={formData.geschlecht}
+                onChange={(e) => setFormData({...formData, geschlecht: e.target.value})}
+              >
+                <option value="">Bitte wählen</option>
+                <option value="Herr">Herr</option>
+                <option value="Frau">Frau</option>
+                <option value="Divers">Divers</option>
+              </select>
+            </div>
 
-          // Unternehmen
-          e('div', { style: { marginBottom: '16px' } },
-            e('label', { style: labelStyle }, 'Unternehmen'),
-            e('input', {
-              type: 'text',
-              style: inputStyle,
-              placeholder: 'Muster GmbH',
-              value: formData.unternehmen,
-              onChange: (ev) => setFormData({...formData, unternehmen: ev.target.value})
-            })
-          ),
+            {/* Unternehmen */}
+            <div style={{ marginBottom: '16px' }}>
+              <label style={labelStyle}>Unternehmen</label>
+              <input
+                type="text"
+                style={inputStyle}
+                placeholder="Muster GmbH"
+                value={formData.unternehmen}
+                onChange={(e) => setFormData({...formData, unternehmen: e.target.value})}
+              />
+            </div>
 
-          // Contact Row
-          e('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px' } },
-            e('div', null,
-              e('label', { style: labelStyle }, 'E-Mail *'),
-              e('input', {
-                type: 'email',
-                style: inputStyle,
-                placeholder: 'max@muster.de',
-                value: formData.email,
-                onChange: (ev) => setFormData({...formData, email: ev.target.value})
-              })
-            ),
-            e('div', null,
-              e('label', { style: labelStyle }, 'Telefon'),
-              e('input', {
-                type: 'tel',
-                style: inputStyle,
-                placeholder: '+49 123 456789',
-                value: formData.telefon,
-                onChange: (ev) => setFormData({...formData, telefon: ev.target.value})
-              })
-            )
-          ),
+            {/* Contact Row */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px' }}>
+              <div>
+                <label style={labelStyle}>E-Mail *</label>
+                <input
+                  type="email"
+                  style={inputStyle}
+                  placeholder="max@muster.de"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                />
+              </div>
+              <div>
+                <label style={labelStyle}>Telefon</label>
+                <input
+                  type="tel"
+                  style={inputStyle}
+                  placeholder="+49 123 456789"
+                  value={formData.telefon}
+                  onChange={(e) => setFormData({...formData, telefon: e.target.value})}
+                />
+              </div>
+            </div>
 
-          // Threshold Section
-          e('div', { style: { borderTop: '1px solid #e5e7eb', paddingTop: '20px' } },
-            e('h4', { style: { fontSize: '14px', fontWeight: '600', marginBottom: '16px', color: colors.black } },
-              'Preisschwellwerte'
-            ),
+            {/* Threshold Section */}
+            <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '20px' }}>
+              <h4 style={{ fontSize: '14px', fontWeight: '600', marginBottom: '16px', color: colors.black }}>
+                Preisschwellwerte
+              </h4>
 
-            // Upper Threshold
-            e('div', { style: { marginBottom: '20px' } },
-              e('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' } },
-                e('span', { style: { fontSize: '14px', color: colors.darkGrey } }, 'Oberer Schwellwert'),
-                e('span', { style: { fontSize: '14px', fontWeight: '600', color: colors.black } },
-                  formData.upperThreshold + ' €/MWh',
-                  e('span', { style: { fontWeight: '400', color: colors.grey, marginLeft: '4px' } },
-                    '(' + (formData.upperThreshold / 10).toFixed(1) + ' ct/kWh)'
-                  )
-                )
-              ),
-              e('input', {
-                type: 'range',
-                min: 50,
-                max: 200,
-                step: 5,
-                value: formData.upperThreshold,
-                onChange: (ev) => setFormData({...formData, upperThreshold: parseInt(ev.target.value)}),
-                style: {
-                  width: '100%',
-                  height: '8px',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  accentColor: colors.primary
-                }
-              })
-            ),
+              {/* Upper Threshold */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '14px', color: colors.darkGrey }}>Oberer Schwellwert</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', color: colors.black }}>
+                    {formData.upperThreshold} €/MWh
+                    <span style={{ fontWeight: '400', color: colors.grey, marginLeft: '4px' }}>
+                      ({(formData.upperThreshold / 10).toFixed(1)} ct/kWh)
+                    </span>
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="50"
+                  max="200"
+                  step="5"
+                  value={formData.upperThreshold}
+                  onChange={(e) => setFormData({...formData, upperThreshold: parseInt(e.target.value)})}
+                  style={{
+                    width: '100%',
+                    height: '8px',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    accentColor: colors.primary
+                  }}
+                />
+              </div>
 
-            // Lower Threshold
-            e('div', { style: { marginBottom: '20px' } },
-              e('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' } },
-                e('span', { style: { fontSize: '14px', color: colors.darkGrey } }, 'Unterer Schwellwert'),
-                e('span', { style: { fontSize: '14px', fontWeight: '600', color: colors.black } },
-                  formData.lowerThreshold + ' €/MWh',
-                  e('span', { style: { fontWeight: '400', color: colors.grey, marginLeft: '4px' } },
-                    '(' + (formData.lowerThreshold / 10).toFixed(1) + ' ct/kWh)'
-                  )
-                )
-              ),
-              e('input', {
-                type: 'range',
-                min: -20,
-                max: 50,
-                step: 5,
-                value: formData.lowerThreshold,
-                onChange: (ev) => setFormData({...formData, lowerThreshold: parseInt(ev.target.value)}),
-                style: {
-                  width: '100%',
-                  height: '8px',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  accentColor: colors.blue
-                }
-              })
-            ),
+              {/* Lower Threshold */}
+              <div style={{ marginBottom: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '14px', color: colors.darkGrey }}>Unterer Schwellwert</span>
+                  <span style={{ fontSize: '14px', fontWeight: '600', color: colors.black }}>
+                    {formData.lowerThreshold} €/MWh
+                    <span style={{ fontWeight: '400', color: colors.grey, marginLeft: '4px' }}>
+                      ({(formData.lowerThreshold / 10).toFixed(1)} ct/kWh)
+                    </span>
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="-20"
+                  max="50"
+                  step="5"
+                  value={formData.lowerThreshold}
+                  onChange={(e) => setFormData({...formData, lowerThreshold: parseInt(e.target.value)})}
+                  style={{
+                    width: '100%',
+                    height: '8px',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    accentColor: colors.blue
+                  }}
+                />
+              </div>
 
-            // Alert Stats
-            e('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' } },
-              e('div', {
-                style: {
+              {/* Alert Stats */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+                <div style={{
                   backgroundColor: colors.lightGrey,
                   borderRadius: '8px',
                   padding: '16px',
                   textAlign: 'center',
-                  border: '2px solid ' + colors.primaryShade2
-                }
-              },
-                e('div', { style: { fontSize: '28px', fontWeight: '700', color: colors.primary } }, alerts.above),
-                e('div', { style: { fontSize: '12px', color: colors.darkGrey, marginTop: '4px' } }, 'Tage über Schwellwert')
-              ),
-              e('div', {
-                style: {
+                  border: `2px solid ${colors.primaryShade2}`
+                }}>
+                  <div style={{ fontSize: '28px', fontWeight: '700', color: colors.primary }}>
+                    {alerts.above}
+                  </div>
+                  <div style={{ fontSize: '12px', color: colors.darkGrey, marginTop: '4px' }}>
+                    Tage über Schwellwert
+                  </div>
+                </div>
+                <div style={{
                   backgroundColor: colors.lightGrey,
                   borderRadius: '8px',
                   padding: '16px',
                   textAlign: 'center',
-                  border: '2px solid ' + colors.lightYellow
-                }
-              },
-                e('div', { style: { fontSize: '28px', fontWeight: '700', color: colors.blue } }, alerts.below),
-                e('div', { style: { fontSize: '12px', color: colors.darkGrey, marginTop: '4px' } }, 'Tage unter Schwellwert')
-              )
-            ),
+                  border: `2px solid ${colors.lightYellow}`
+                }}>
+                  <div style={{ fontSize: '28px', fontWeight: '700', color: colors.blue }}>
+                    {alerts.below}
+                  </div>
+                  <div style={{ fontSize: '12px', color: colors.darkGrey, marginTop: '4px' }}>
+                    Tage unter Schwellwert
+                  </div>
+                </div>
+              </div>
 
-            e('p', { style: { fontSize: '12px', color: colors.grey, textAlign: 'center', marginBottom: '16px' } },
-              'Basierend auf den letzten ' + priceData.length + ' Tagen'
-            )
-          ),
+              <p style={{ fontSize: '12px', color: colors.grey, textAlign: 'center', marginBottom: '16px' }}>
+                Basierend auf den letzten {priceData.length} Tagen
+              </p>
+            </div>
 
-          // Submit Button
-          e('button', {
-            onClick: handleSubmit,
-            disabled: submitting,
-            style: {
-              width: '100%',
-              padding: '14px',
-              backgroundColor: submitting ? colors.primaryShade1 : colors.primary,
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '16px',
-              fontWeight: '600',
-              cursor: submitting ? 'not-allowed' : 'pointer',
-              transition: 'background-color 0.2s'
-            }
-          },
-            submitting ? 'Wird gesendet...' : 'Kostenlos anmelden'
-          )
-        ),
+            {/* Submit Button */}
+            <button
+              onClick={handleSubmit}
+              disabled={submitting}
+              style={{
+                width: '100%',
+                padding: '14px',
+                backgroundColor: submitting ? colors.primaryShade1 : colors.primary,
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: submitting ? 'not-allowed' : 'pointer',
+                transition: 'background-color 0.2s'
+              }}
+            >
+              {submitting ? 'Wird gesendet...' : 'Kostenlos anmelden'}
+            </button>
+          </div>
 
-        // Right Side: Chart
-        !isMobile && e('div', { style: { padding: '24px', backgroundColor: colors.lightGrey } },
-          e('div', { style: { marginBottom: '16px' } },
-            e('h3', { style: { fontSize: '18px', fontWeight: '600', color: colors.black } },
-              'Day-Ahead Strompreise'
-            ),
-            e('p', { style: { fontSize: '14px', color: colors.grey } },
-              'Letzte ' + priceData.length + ' Tage · DE-LU Marktgebiet'
-            )
-          ),
+          {/* Right Side: Chart */}
+          {!isMobile && (
+            <div style={{ padding: '24px', backgroundColor: colors.lightGrey }}>
+              <div style={{ marginBottom: '16px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', color: colors.black }}>
+                  Day-Ahead Strompreise
+                </h3>
+                <p style={{ fontSize: '14px', color: colors.grey }}>
+                  Letzte {priceData.length} Tage · DE-LU Marktgebiet
+                </p>
+              </div>
 
-          loading ?
-            e('div', {
-              style: {
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '300px',
-                backgroundColor: 'white',
-                borderRadius: '8px',
-                border: '1px solid #e5e7eb'
-              }
-            },
-              e('div', { style: { textAlign: 'center' } },
-                e('div', {
-                  style: {
-                    width: '40px',
-                    height: '40px',
-                    border: '3px solid ' + colors.primaryShade2,
-                    borderTopColor: colors.primary,
-                    borderRadius: '50%',
-                    animation: 'spin 1s linear infinite',
-                    margin: '0 auto 12px'
-                  }
-                }),
-                e('p', { style: { fontSize: '14px', color: colors.grey } }, 'Lade Preisdaten...')
-              )
-            )
-          :
-            e('div', {
-              style: {
-                backgroundColor: 'white',
-                borderRadius: '8px',
-                padding: '16px',
-                border: '1px solid #e5e7eb'
-              }
-            },
-              e(ResponsiveContainer, { width: '100%', height: 320 },
-                e(ComposedChart, { data: priceData, margin: { top: 20, right: 15, bottom: 10, left: -5 } },
-                  e(XAxis, {
-                    dataKey: 'date',
-                    tick: { fontSize: 10, fill: colors.grey },
-                    axisLine: { stroke: '#e5e7eb' },
-                    tickLine: false,
-                    interval: Math.floor(priceData.length / 6)
-                  }),
-                  e(YAxis, {
-                    domain: [-50, 200],
-                    tick: { fontSize: 10, fill: colors.grey },
-                    axisLine: { stroke: '#e5e7eb' },
-                    tickLine: false
-                  }),
-                  e(Tooltip, {
-                    contentStyle: {
-                      backgroundColor: 'white',
-                      border: '1px solid ' + colors.primaryShade2,
-                      borderRadius: '8px',
-                      fontSize: '12px'
-                    },
-                    formatter: (value, name) => {
-                      const labels = { max: 'Maximum', min: 'Minimum', avg: 'Durchschnitt' };
-                      return [value.toFixed(2) + ' €/MWh', labels[name] || name];
-                    },
-                    labelFormatter: (label) => 'Datum: ' + label
-                  }),
-                  e(Area, {
-                    type: 'monotone',
-                    dataKey: 'max',
-                    fill: colors.primaryShade2,
-                    stroke: colors.primaryShade1,
-                    strokeWidth: 1,
-                    name: 'max',
-                    fillOpacity: 0.4
-                  }),
-                  e(Area, {
-                    type: 'monotone',
-                    dataKey: 'min',
-                    fill: colors.lightYellow,
-                    stroke: colors.yellow,
-                    strokeWidth: 1,
-                    name: 'min',
-                    fillOpacity: 0.5
-                  }),
-                  e(Line, {
-                    type: 'monotone',
-                    dataKey: 'avg',
-                    stroke: colors.primary,
-                    strokeWidth: 2,
-                    dot: false,
-                    name: 'avg'
-                  }),
-                  e(ReferenceLine, {
-                    y: formData.upperThreshold,
-                    stroke: colors.primary,
-                    strokeDasharray: '6 4',
-                    strokeWidth: 2
-                  }),
-                  e(ReferenceLine, {
-                    y: formData.lowerThreshold,
-                    stroke: colors.blue,
-                    strokeDasharray: '6 4',
-                    strokeWidth: 2
-                  })
-                )
-              ),
-
-              // Legend
-              e('div', {
-                style: {
+              {loading ? (
+                <div style={{
                   display: 'flex',
+                  alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '24px',
-                  marginTop: '12px',
-                  paddingTop: '12px',
-                  borderTop: '1px solid #f3f4f6'
-                }
-              },
-                e('div', { style: { display: 'flex', alignItems: 'center', gap: '6px' } },
-                  e('div', { style: { width: '12px', height: '12px', borderRadius: '50%', backgroundColor: colors.primary } }),
-                  e('span', { style: { fontSize: '12px', color: colors.darkGrey } }, 'Durchschnitt')
-                ),
-                e('div', { style: { display: 'flex', alignItems: 'center', gap: '6px' } },
-                  e('div', { style: { width: '12px', height: '12px', borderRadius: '50%', backgroundColor: colors.primaryShade2 } }),
-                  e('span', { style: { fontSize: '12px', color: colors.darkGrey } }, 'Maximum')
-                ),
-                e('div', { style: { display: 'flex', alignItems: 'center', gap: '6px' } },
-                  e('div', { style: { width: '12px', height: '12px', borderRadius: '50%', backgroundColor: colors.yellow } }),
-                  e('span', { style: { fontSize: '12px', color: colors.darkGrey } }, 'Minimum')
-                )
-              )
-            ),
+                  height: '300px',
+                  backgroundColor: 'white',
+                  borderRadius: '8px',
+                  border: '1px solid #e5e7eb'
+                }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      border: `3px solid ${colors.primaryShade2}`,
+                      borderTopColor: colors.primary,
+                      borderRadius: '50%',
+                      animation: 'spin 1s linear infinite',
+                      margin: '0 auto 12px'
+                    }} />
+                    <p style={{ fontSize: '14px', color: colors.grey }}>Lade Preisdaten...</p>
+                  </div>
+                </div>
+              ) : (
+                <div style={{
+                  backgroundColor: 'white',
+                  borderRadius: '8px',
+                  padding: '16px',
+                  border: '1px solid #e5e7eb'
+                }}>
+                  <ResponsiveContainer width="100%" height={320}>
+                    <ComposedChart data={priceData} margin={{ top: 20, right: 15, bottom: 10, left: -5 }}>
+                      <XAxis
+                        dataKey="date"
+                        tick={{ fontSize: 10, fill: colors.grey }}
+                        axisLine={{ stroke: '#e5e7eb' }}
+                        tickLine={false}
+                        interval={Math.floor(priceData.length / 6)}
+                      />
+                      <YAxis
+                        domain={[-50, 200]}
+                        tick={{ fontSize: 10, fill: colors.grey }}
+                        axisLine={{ stroke: '#e5e7eb' }}
+                        tickLine={false}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: 'white',
+                          border: `1px solid ${colors.primaryShade2}`,
+                          borderRadius: '8px',
+                          fontSize: '12px'
+                        }}
+                        formatter={(value, name) => {
+                          const labels = { max: 'Maximum', min: 'Minimum', avg: 'Durchschnitt' };
+                          return [`${value.toFixed(2)} €/MWh`, labels[name] || name];
+                        }}
+                        labelFormatter={(label) => `Datum: ${label}`}
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="max"
+                        fill={colors.primaryShade2}
+                        stroke={colors.primaryShade1}
+                        strokeWidth={1}
+                        name="max"
+                        fillOpacity={0.4}
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="min"
+                        fill={colors.lightYellow}
+                        stroke={colors.yellow}
+                        strokeWidth={1}
+                        name="min"
+                        fillOpacity={0.5}
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="avg"
+                        stroke={colors.primary}
+                        strokeWidth={2}
+                        dot={false}
+                        name="avg"
+                      />
+                      <ReferenceLine
+                        y={formData.upperThreshold}
+                        stroke={colors.primary}
+                        strokeDasharray="6 4"
+                        strokeWidth={2}
+                      />
+                      <ReferenceLine
+                        y={formData.lowerThreshold}
+                        stroke={colors.blue}
+                        strokeDasharray="6 4"
+                        strokeWidth={2}
+                      />
+                    </ComposedChart>
+                  </ResponsiveContainer>
 
-          e('p', { style: { fontSize: '12px', color: colors.grey, textAlign: 'center', marginTop: '12px' } },
-            'Bewegen Sie die Regler links, um zu sehen wie oft Sie benachrichtigt worden wären.'
-          )
-        )
-      )
+                  {/* Legend */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '24px',
+                    marginTop: '12px',
+                    paddingTop: '12px',
+                    borderTop: '1px solid #f3f4f6'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: colors.primary }}></div>
+                      <span style={{ fontSize: '12px', color: colors.darkGrey }}>Durchschnitt</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: colors.primaryShade2 }}></div>
+                      <span style={{ fontSize: '12px', color: colors.darkGrey }}>Maximum</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: colors.yellow }}></div>
+                      <span style={{ fontSize: '12px', color: colors.darkGrey }}>Minimum</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <p style={{ fontSize: '12px', color: colors.grey, textAlign: 'center', marginTop: '12px' }}>
+                Bewegen Sie die Regler links, um zu sehen wie oft Sie benachrichtigt worden wären.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
     );
   }
 
-  ReactDOM.render(e(EnerkiiPriceSignal), document.getElementById('enerkii-price-signal'));
-})();
+  ReactDOM.render(<EnerkiiPriceSignal />, document.getElementById('enerkii-price-signal'));
 </script>
 
 </body>
