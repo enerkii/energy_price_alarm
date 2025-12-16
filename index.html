@@ -50,7 +50,7 @@
     }
   </style>
 </head>
-<body class="bg-enerkii-grey-light m-0 p-0">
+<body class="bg-white m-0 p-0">
   <div id="app"></div>
 
   <script>
@@ -542,11 +542,26 @@
 
           app.innerHTML = `
             <div class="max-w-7xl mx-auto p-0 m-0">
+              <!-- Chart Section (Full Width) -->
+              <div class="bg-white p-6">
+                <div class="mb-4">
+                  <h3 class="text-lg font-semibold text-enerkii-black">Day-Ahead Strompreise</h3>
+                  <p class="text-sm text-enerkii-grey">
+                    Letzte <span id="chart-data-count">${isMobile ? '30' : '180'}</span> Tage · DE-LU Marktgebiet
+                  </p>
+                </div>
+
+                <div class="pr-2">
+                  <canvas id="price-chart" style="height: ${isMobile ? '250px' : '400px'};"></canvas>
+                </div>
+              </div>
+
+              <!-- Form Section (Two Columns) -->
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 bg-white overflow-hidden">
 
-                <!-- Form Column -->
-                <div class="p-6 lg:border-r border-gray-200">
-                  <h3 class="text-xl font-semibold text-enerkii-black mb-5">Ihre Daten</h3>
+                <!-- Left Column: Form Inputs -->
+                <div class="p-6">
+                  <h3 class="text-lg font-semibold text-enerkii-black mb-5">Ihre Daten</h3>
 
                   <!-- Name Row -->
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
@@ -594,48 +609,48 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-enerkii-green focus:border-transparent text-sm">
                     </div>
                   </div>
+                </div>
 
-                  <!-- Threshold Section -->
-                  <div class="border-t border-gray-200 pt-5">
-                    <h4 class="text-sm font-semibold text-enerkii-black mb-4">Preisschwellwerte</h4>
+                <!-- Right Column: Threshold Controls -->
+                <div class="p-6">
+                  <h3 class="text-lg font-semibold text-enerkii-black mb-5">Preisschwellwerte</h3>
 
-                    <!-- Upper Threshold -->
-                    <div class="mb-3">
-                      <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm text-enerkii-grey-dark">Oberer Schwellwert</span>
-                        <span class="text-sm font-semibold text-enerkii-black">
-                          <span id="upper-value">120</span> €/MWh
-                          <span class="font-normal text-enerkii-grey ml-1">(<span id="upper-value-kwh">12.0</span> ct/kWh)</span>
-                        </span>
-                      </div>
-                      <input type="range" name="upperThreshold" id="upper-threshold"
-                        min="100" max="500" step="10" value="120"
-                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-enerkii-green mb-2">
-                      <p class="text-xs text-enerkii-grey-dark leading-relaxed">
-                        In den letzten 6 Monaten wären Sie mit diesem Schwellwert
-                        <span class="font-bold text-enerkii-green">an <span id="alert-above">0</span> Tagen für hohe Preise</span>
-                        benachrichtigt worden.
-                      </p>
+                  <!-- Upper Threshold -->
+                  <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                      <span class="text-sm text-enerkii-grey-dark">Oberer Schwellwert</span>
+                      <span class="text-sm font-semibold text-enerkii-black">
+                        <span id="upper-value">120</span> €/MWh
+                        <span class="font-normal text-enerkii-grey ml-1">(<span id="upper-value-kwh">12.0</span> ct/kWh)</span>
+                      </span>
                     </div>
+                    <input type="range" name="upperThreshold" id="upper-threshold"
+                      min="100" max="500" step="10" value="120"
+                      class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-enerkii-green mb-2">
+                    <p class="text-xs text-enerkii-grey-dark leading-relaxed">
+                      In den letzten 6 Monaten wären Sie mit diesem Schwellwert
+                      <span class="font-bold text-enerkii-green">an <span id="alert-above">0</span> Tagen für hohe Preise</span>
+                      benachrichtigt worden.
+                    </p>
+                  </div>
 
-                    <!-- Lower Threshold -->
-                    <div class="mb-5">
-                      <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm text-enerkii-grey-dark">Unterer Schwellwert</span>
-                        <span class="text-sm font-semibold text-enerkii-black">
-                          <span id="lower-value">50</span> €/MWh
-                          <span class="font-normal text-enerkii-grey ml-1">(<span id="lower-value-kwh">5.0</span> ct/kWh)</span>
-                        </span>
-                      </div>
-                      <input type="range" name="lowerThreshold" id="lower-threshold"
-                        min="-150" max="50" step="10" value="50"
-                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-enerkii-blue mb-2">
-                      <p class="text-xs text-enerkii-grey-dark leading-relaxed">
-                        In den letzten 6 Monaten wären Sie mit diesem Schwellwert
-                        <span class="font-bold text-enerkii-blue">an <span id="alert-below">0</span> Tagen für niedrige Preise</span>
-                        benachrichtigt worden.
-                      </p>
+                  <!-- Lower Threshold -->
+                  <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                      <span class="text-sm text-enerkii-grey-dark">Unterer Schwellwert</span>
+                      <span class="text-sm font-semibold text-enerkii-black">
+                        <span id="lower-value">50</span> €/MWh
+                        <span class="font-normal text-enerkii-grey ml-1">(<span id="lower-value-kwh">5.0</span> ct/kWh)</span>
+                      </span>
                     </div>
+                    <input type="range" name="lowerThreshold" id="lower-threshold"
+                      min="-150" max="50" step="10" value="50"
+                      class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-enerkii-blue mb-2">
+                    <p class="text-xs text-enerkii-grey-dark leading-relaxed">
+                      In den letzten 6 Monaten wären Sie mit diesem Schwellwert
+                      <span class="font-bold text-enerkii-blue">an <span id="alert-below">0</span> Tagen für niedrige Preise</span>
+                      benachrichtigt worden.
+                    </p>
                   </div>
 
                   <!-- Submit Button -->
@@ -643,20 +658,6 @@
                     class="w-full py-3 bg-white text-enerkii-green font-semibold rounded-md border-2 border-enerkii-green hover:bg-enerkii-green hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-enerkii-green focus:ring-offset-2">
                     Kostenlos anmelden
                   </button>
-                </div>
-
-                <!-- Chart Column -->
-                <div class="p-6 bg-enerkii-grey-light">
-                  <div class="mb-4">
-                    <h3 class="text-lg font-semibold text-enerkii-black">Day-Ahead Strompreise</h3>
-                    <p class="text-sm text-enerkii-grey">
-                      Letzte <span id="chart-data-count">${isMobile ? '30' : '180'}</span> Tage · DE-LU Marktgebiet
-                    </p>
-                  </div>
-
-                  <div class="pr-2">
-                    <canvas id="price-chart" style="height: ${isMobile ? '200px' : '400px'};"></canvas>
-                  </div>
                 </div>
               </div>
             </div>
