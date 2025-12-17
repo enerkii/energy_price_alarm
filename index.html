@@ -83,7 +83,7 @@
           message: 'Bitte geben Sie eine gültige E-Mail-Adresse ein'
         },
         telefon: {
-          required: true,
+          required: false,
           pattern: /^[\d\s+\-()]+$/,
           message: 'Bitte geben Sie eine gültige Telefonnummer ein'
         }
@@ -253,6 +253,11 @@
           Object.keys(VALIDATION_RULES).forEach(field => {
             const rule = VALIDATION_RULES[field];
             const value = formData[field];
+
+            // Skip validation if field is not required and empty
+            if (!rule.required && (!value || value.trim() === '')) {
+              return;
+            }
 
             if (rule.required && (!value || value.trim() === '')) {
               errors[field] = rule.message;
@@ -604,7 +609,7 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-enerkii-green focus:border-transparent text-sm">
                     </div>
                     <div>
-                      <label class="block text-sm text-enerkii-grey-dark mb-1">Telefon *</label>
+                      <label class="block text-sm text-enerkii-grey-dark mb-1">Telefon</label>
                       <input type="tel" name="telefon" placeholder="+49 123 456789"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-enerkii-green focus:border-transparent text-sm">
                     </div>
